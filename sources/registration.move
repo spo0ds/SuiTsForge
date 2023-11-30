@@ -133,7 +133,7 @@ module registration::school {
 
     // ===== Add school to record =====
 
-    public entry fun add_loc(_cap:&Cap, parent: &mut School_Record, child: School) {
+    public entry fun add_school_to_school_record(_cap:&Cap, parent: &mut School_Record, child: School) {
         let loc_reg_id = object::id(&child);
         ofield::add(&mut parent.id, loc_reg_id, child);
     } 
