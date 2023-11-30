@@ -51,7 +51,7 @@ module registration::school {
     }
 
 
-    public entry fun addLocation(
+    public entry fun addSchool(
         name: string::String,
         contact: string::String,
         images: vector<string::String>,
