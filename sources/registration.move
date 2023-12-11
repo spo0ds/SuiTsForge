@@ -3,7 +3,7 @@ module registration::school {
     use sui::object::{Self,UID, ID};
     use sui::tx_context::{Self, TxContext};
     use sui::transfer;
-    use sui::event;
+    use sui::event::emit;
     use sui::dynamic_object_field as ofield;
     use std::vector;
     use sui::clock::{Self, Clock};
@@ -37,6 +37,15 @@ module registration::school {
 
     struct Cap has key{
         id: UID, 
+    }
+
+    struct School_Record_Event has copy, store, drop {
+        name: string::String,
+        contact: string::String,
+        images: vector<string::String>,
+        description: string::String,
+        location: Location,
+        timestamp: TimeStamp,
     }
 
     fun init(ctx:&mut TxContext) {
@@ -83,14 +92,18 @@ module registration::school {
             location,
             timestamp,
         };
-        // Adding school to record 
+        // retrieving the id of the school object 
         let school_id = object::id(&school_reg);
+        // Adding school to record
         ofield::add(&mut school_object.id, school_id, school_reg);
         school_object.school_added_count = school_object.school_added_count + 1;
-        event::emit(Location { 
-            type:type,
-            longitude: longitude,
-            latitude: latitude,
+        emit(School_Record_Event { 
+            name,
+            contact,
+            images,
+            description,
+            location,
+            timestamp,
         });
     }
 
