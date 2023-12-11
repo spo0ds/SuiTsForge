@@ -74,10 +74,8 @@ module registration::school {
             updated_at: clock::timestamp_ms(clock),
         };
 
-        let id = object::new(ctx);
-
         let school_reg = School {
-            id: id,
+            id: object::new(ctx),
             name,
             contact,
             images,
@@ -85,8 +83,10 @@ module registration::school {
             location,
             timestamp,
         };
+        // Adding school to record 
+        let school_id = object::id(&school_reg);
+        ofield::add(&mut school_object.id, school_id, school_reg);
         school_object.school_added_count = school_object.school_added_count + 1;
-        transfer::transfer(school_reg, tx_context::sender(ctx));
         event::emit(Location { 
             type:type,
             longitude: longitude,
@@ -130,13 +130,6 @@ module registration::school {
     public fun view_school(parent: &School_Record, child_id: ID): &School {
         ofield::borrow<ID, School>(&parent.id, child_id)
     }
-
-    // ===== Add school to record =====
-
-    public entry fun add_school_to_school_record(_cap:&Cap, parent: &mut School_Record, child: School) {
-        let loc_reg_id = object::id(&child);
-        ofield::add(&mut parent.id, loc_reg_id, child);
-    } 
 
     // ===== Update functions =====
 
