@@ -6,11 +6,13 @@ import {
   cap,
   childId,
   schoolRecordId,
-  mnemonic,
 } from "../constants/ids";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function delete_object() {
   const tx = new TransactionBlock();
+  const mnemonic = process.env.MNEMONICS || '';
 
   // Generate a new Ed25519 Keypair
   const keypair = Ed25519Keypair.deriveKeypair(mnemonic);

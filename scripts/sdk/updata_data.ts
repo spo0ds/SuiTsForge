@@ -7,11 +7,14 @@ import {
   cap,
   childId,
   schoolRecordId,
-  mnemonic,
 } from "../constants/ids";
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 
 async function update_name() {
   const tx = new TransactionBlock();
+  const mnemonic = process.env.MNEMONICS || '';
 
   const keypair = Ed25519Keypair.deriveKeypair(mnemonic);
   const client = new SuiClient({

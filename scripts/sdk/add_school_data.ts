@@ -2,9 +2,13 @@ import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { SUI_CLOCK_OBJECT_ID } from "@mysten/sui.js/utils";
-import { mnemonic, packageId, schoolRecordId } from "../constants/ids";
+import { packageId, schoolRecordId } from "../constants/ids";
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 
 async function add_school_data() {
+  const mnemonic = process.env.MNEMONICS || '';
   const keypair = Ed25519Keypair.deriveKeypair(mnemonic);
   const client = new SuiClient({
     url: getFullnodeUrl("testnet"),
